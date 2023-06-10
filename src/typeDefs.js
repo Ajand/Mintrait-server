@@ -4,7 +4,7 @@ const typeDefs = `#graphql
   # This "Book" type defines the queryable fields for every book in our data source.
 
   type User {
-    id: ID!
+    _id: ID!
     displayName: String
     address: String!
     publicKey: String!
@@ -15,29 +15,25 @@ const typeDefs = `#graphql
   
 
   type Collection {
-    id: ID!
-    name: String!
-    variant: String!
-    description: String!
-    contractAddress: String!
-    logo: String!
-    cover: String!
-    symbol: String!
-    creator: User!
+    _id: ID!
+    name: String
+    variant: String
+    description: String
+    contractAddress: String
+    logo: String
+    cover: String
+    symbol: String
+    creator: User
+    royalty: Float
+    traits: [Trait!]!
+    tokens: [Token!]!
   }
 
 
   type Token {
-    id: ID!
-    name: String
-    description: String
-    background_color: String
-    external_url: String
-    image: String
-    animation_url: String
-    youtube_url: String
-    collection: Collection!
-    attributes: [Trait!]!
+    _id: ID!
+    json: String!
+    contractAddress: String
   }
 
   type TraitValue {
@@ -46,7 +42,7 @@ const typeDefs = `#graphql
   }
 
   type Trait {
-    id: ID!
+    _id: ID!
     name: String!
     variant: String!
     values: [TraitValue!]!
@@ -58,14 +54,14 @@ const typeDefs = `#graphql
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    me: User!
+    me: User
     user(id: String): User!
-    collection(id: ID!): Collection!
+    collection(_id: ID!): Collection!
     token(id: ID!): Token!
   }
 
   type Mutation {
-    createCollection(name: String!): Collection!
+    createCollection(name: String!, description: String!, symbol: String!, royalty: Float!): Collection!
     editCollection(name: String!): Collection!
     updateCover(cover: String!): Collection!
     updateLogo(logo: String!): Collection!
@@ -77,11 +73,11 @@ const typeDefs = `#graphql
     getJwt(publicKey: String!, signature: String!, dataHash: String!): String!
     editProfile(displayName: String!): String!
 
-    addTrait(collectionId: String!, traitName: String!, variant: String!): String!
+    addTrait(collectionId: String!, traitName: String!, variant: String!): Trait!
     editTrait(id: ID!, traitName: String!, variant: String!): String!
     deleteTrait(id: ID!): String!
 
-    addToken(collectionId: String!, name: String!, description: String!, backgorund_color: String!, external_url: String!): String!
+    addToken(collectionId: String!, json: String!): Token!
   }
 `;
 

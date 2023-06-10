@@ -7,15 +7,29 @@ import 'tip4/contracts/CollectionBase.tsol';
 import './Nft.tsol';
 
 contract Collection is CollectionBase  {
+    address royaltyReceiver;
+    uint128 royaltyPercent;
 
     constructor(
+        address royaltyReceiver_,
+        uint128 royaltyPercent_,
         TvmCell codeNft, 
         TvmCell codeIndex,
         TvmCell codeIndexBasis,
         string json
     ) CollectionBase(codeNft, codeIndex, codeIndexBasis, json)  public {
         tvm.accept();
+        royaltyReceiver = royaltyReceiver_;
+        royaltyPercent = royaltyPercent_;
+        _supportedInterfaces[0x60970214] = true;
+
     }
+
+    function royaltyInfo(uint128 salePrice) external view responsible returns(address receiver, uint128 royaltyAmount) {
+        receiver = royaltyReceiver;
+        royaltyAmount = salePrice * royaltyPercent / 10000;
+    }
+
 
     function mintNft(string json, address owner) external internalMsg  virtual {
         require(msg.value > _remainOnNft + (2 * _indexDeployValue), value_is_less_than_required);

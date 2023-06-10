@@ -5,22 +5,26 @@ import {
 } from "everscale-standalone-client/nodejs.js";
 
 const getProvider = async () => {
-  const client = new ProviderRpcClient({
-    fallback: () =>
-      EverscaleStandaloneClient.create({
-        connection: {
-          id: 1002,
-          group: "devnet",
-          type: "jrpc",
-          data: {
-            endpoint: ["https://jrpc-devnet.venom.foundation/"],
+  try {
+    const client = new ProviderRpcClient({
+      fallback: () =>
+        EverscaleStandaloneClient.create({
+          connection: {
+            id: 1002,
+            group: "devnet",
+            type: "jrpc",
+            data: {
+              endpoint: ["https://jrpc-devnet.venom.foundation/"],
+            },
           },
-        },
-      }),
-  });
-  await client.ensureInitialized();
-  await client.requestPermissions({ permissions: ["basic"] });
-  return client;
+        }),
+    });
+    await client.ensureInitialized();
+    await client.requestPermissions({ permissions: ["basic"] });
+    return client;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export default getProvider;

@@ -9,6 +9,15 @@ IFREF {
 }
 GETGLOB 6
 THROWIF 51
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDMSGADDR
+LDU 128
 LDREF
 LDREF
 LDREF
@@ -96,13 +105,127 @@ CALLREF {
 }
 .loc ../node_modules/tip4/contracts/CollectionBase.tsol, 39
 ACCEPT
-.loc ../contracts/Collection.tsol, 17
+.loc ../contracts/Collection.tsol, 21
 ACCEPT
+.loc ../contracts/Collection.tsol, 22
+SWAP
+SETGLOB 20
+.loc ../contracts/Collection.tsol, 23
+SETGLOB 21
+.loc ../contracts/Collection.tsol, 24
+PUSHINT 1620509204
+GETGLOB 10
+NEWC
+STONE
+ROTREV
+PUSHINT 32
+DICTUSETB
+SETGLOB 10
 .loc ../contracts/Collection.tsol, 0
 CALLREF {
 	CALL $c7_to_c4$
 }
 THROW 0
+
+.macro royaltyInfo
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Collection.tsol, 28
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+OVER
+PUSHCONT {
+	LDREF
+	ENDS
+	CTOS
+}
+IF
+LDU 128
+ENDS
+.loc ../contracts/Collection.tsol, 0
+CALLREF {
+	CALL $royaltyInfo_87537893_internal_macro$
+}
+PUSH S2
+PUSHCONT {
+	PUSH S4
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 1
+	STUR 98
+	XCHG S2
+	NEWC
+	STSLICECONST xe0970214
+	STSLICE
+	STU 128
+	STBREFR
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 1
+	STUR 106
+	XCHG S2
+	NEWC
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STSLICE
+	STU 128
+	STBREFR
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro royaltyInfo_87537893_internal_macro
+.loc ../contracts/Collection.tsol, 29
+GETGLOB 20
+.loc ../contracts/Collection.tsol, 30
+SWAP
+GETGLOB 21
+MUL
+UFITS 128
+PUSHINT 10000
+DIV
+.loc ../contracts/Collection.tsol, 0
 
 .macro mintNft
 DROP
@@ -113,7 +236,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Collection.tsol, 20
+.loc ../contracts/Collection.tsol, 34
 OVER
 PUSHCONT {
 	LDREF
@@ -138,12 +261,12 @@ CALLREF {
 THROW 0
 
 .macro mintNft_1c8b45c3_internal_macro
-.loc ../contracts/Collection.tsol, 20
+.loc ../contracts/Collection.tsol, 34
 DEPTH
 ADDCONST -5
 PICK
 THROWIF 72
-.loc ../contracts/Collection.tsol, 21
+.loc ../contracts/Collection.tsol, 35
 DEPTH
 ADDCONST -2
 PICK
@@ -156,28 +279,28 @@ ADD
 UFITS 128
 GREATER
 THROWIFNOT 102
-.loc ../contracts/Collection.tsol, 23
+.loc ../contracts/Collection.tsol, 37
 PUSHINT 0
 PUSHINT 4
 RAWRESERVE
-.loc ../contracts/Collection.tsol, 25
+.loc ../contracts/Collection.tsol, 39
 GETGLOB 12
 DUP
-.loc ../contracts/Collection.tsol, 26
+.loc ../contracts/Collection.tsol, 40
 INC
 UFITS 128
 SETGLOB 12
-.loc ../contracts/Collection.tsol, 28
+.loc ../contracts/Collection.tsol, 42
 MYADDR
 CALLREF {
 	CALL $_buildNftCode_c58e679e_internal_macro$
 }
-.loc ../contracts/Collection.tsol, 29
+.loc ../contracts/Collection.tsol, 43
 OVER
 CALLREF {
 	CALL $_buildNftState_c971fdf8_internal_macro$
 }
-.loc ../contracts/Collection.tsol, 30
+.loc ../contracts/Collection.tsol, 44
 GETGLOB 14
 GETGLOB 17
 GETGLOB 16
@@ -242,7 +365,7 @@ STBREFR
 ENDC
 PUSHPOW2 7
 SENDRAWMSG
-.loc ../contracts/Collection.tsol, 44
+.loc ../contracts/Collection.tsol, 58
 GETGLOB 9
 BLKPUSH 2, 0
 BLKSWAP 2, 3
@@ -1937,7 +2060,14 @@ LDU 128
 LDU 128
 LDU 128
 LDU 128
+LDREF
 ENDS
+CTOS
+LDMSGADDR
+LDU 128
+ENDS
+SETGLOB 21
+SETGLOB 20
 SETGLOB 19
 SETGLOB 18
 SETGLOB 17
@@ -1970,6 +2100,12 @@ PUSHCONT {
 	BLKPUSH 2, 0
 	PUSHINT 0
 	BLKPUSH 3, 0
+	PUSHREFSLICE {
+		.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+	}
+	PUSHINT 0
+	SETGLOB 21
+	SETGLOB 20
 	SETGLOB 19
 	SETGLOB 18
 	SETGLOB 17
@@ -2001,6 +2137,8 @@ IFREFELSE {
 }
 
 .macro c7_to_c4
+GETGLOB 21
+GETGLOB 20
 GETGLOB 19
 GETGLOB 18
 GETGLOB 17
@@ -2021,7 +2159,7 @@ STDICT
 STREF
 STU 128
 STREF
-ROLLREV 6
+ROLLREV 8
 NEWC
 STREF
 STREF
@@ -2029,6 +2167,11 @@ STU 128
 STU 128
 STU 128
 STU 128
+ROTREV
+NEWC
+STSLICE
+STU 128
+STBREFR
 STBREFR
 ENDC
 POPROOT
@@ -2100,7 +2243,9 @@ CTOS
 SBITS
 NEQINT 1
 SETGLOB 6
-PUSHSLICE x8000000000000000000000000000000000000000000000000000000000000000001_
+PUSHREFSLICE {
+	.blob x8000000000000000000000000000000000000000000000000000000000000000001_
+}
 SETGLOB 9
 OVER
 CALLREF {
@@ -2152,9 +2297,15 @@ THROW 60
 
 .macro public_function_selector
 DUP
-PUSHINT 502829540
+PUSHINT 348956614
 LEQ
 IFJMPREF {
+	DUP
+	PUSHINT 43545224
+	EQUAL
+	IFJMPREF {
+		CALL $constructor$
+	}
 	DUP
 	PUSHINT 64331365
 	EQUAL
@@ -2172,12 +2323,6 @@ IFJMPREF {
 	EQUAL
 	IFJMPREF {
 		CALL $indexCodeHash$
-	}
-	DUP
-	PUSHINT 502829540
-	EQUAL
-	IFJMPREF {
-		CALL $constructor$
 	}
 }
 DUP
@@ -2240,8 +2385,19 @@ IFJMPREF {
 }
 DUP
 PUSHINT 1629421668
-EQUAL
+LEQ
 IFJMPREF {
-	CALL $totalSupply$
+	DUP
+	PUSHINT 1620509204
+	EQUAL
+	IFJMPREF {
+		CALL $royaltyInfo$
+	}
+	DUP
+	PUSHINT 1629421668
+	EQUAL
+	IFJMPREF {
+		CALL $totalSupply$
+	}
 }
 

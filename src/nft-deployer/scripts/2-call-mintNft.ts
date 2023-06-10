@@ -1,4 +1,6 @@
 import { toNano, WalletTypes } from "locklift";
+const fs = require("fs");
+const path = require("path");
 
 // you can get this parameter as (await locklift.keystore.getSigner("0"))! if you have a seed phrase sets up in key section of locklift config
 // or you can pass this parameter by cli or get them by some file reading for example
@@ -11,16 +13,18 @@ async function main() {
   const collectionArtifacts = await locklift.factory.getContractArtifacts("Collection");
   const nftArtifacts = await locklift.factory.getContractArtifacts("NFT");
 
-  // calculation of deployed Collection contract address
-  const collectionAddress =
-    "0:20bc5907e600dd99d568c71dd61a3c967dd9e360c95c0393b3645b3a6e711b78"; /*await locklift.provider.getExpectedAddress(collectionArtifacts.abi, {
-    tvc: collectionArtifacts.tvc,
-    publicKey: COLLECTION_DEPLOY_PUBLIC_KEY,
-    initParams: {}, // we don't have any initParams for collection
-  });*/
-  // initialize contract object by locklift
+  const fileName = process.argv[7];
 
-  const owner = "0:7c75751098f482ab51e27bb213b1b22d1a0a0afa333b9abc4041c8c84c7cb02c";
+  const paramsPath = path.join(process.cwd(), "deploy-conf", `${fileName}.json`);
+
+  const params = JSON.parse(fs.readFileSync(paramsPath, "utf8"));
+
+  const json = params.json;
+  //const json = JSON.stringify(testJson);
+
+  // calculation of deployed Collection contract address
+  const collectionAddress = params.collectionAddress;
+  const owner = params.creatorAddress;
 
   const collectionInsance = await locklift.factory.getDeployedContract("Collection", collectionAddress);
 
@@ -33,9 +37,7 @@ async function main() {
   // call mintNft function
   // firstly get current nft id (totalSupply) for future NFT address calculating
   const { count: id } = await collectionInsance.methods.totalSupply({ answerId: 0 }).call();
-  await collectionInsance.methods
-    .mintNft({ json: `{"name":"hello world"}`, owner })
-    .send({ from: someAccount.address, amount: toNano(1) });
+  await collectionInsance.methods.mintNft({ json, owner }).send({ from: someAccount.address, amount: toNano(1) });
   const { nft: nftAddress } = await collectionInsance.methods.nftAddress({ answerId: 0, id: id }).call();
 
   console.log(`NFT: ${nftAddress.toString()}`);

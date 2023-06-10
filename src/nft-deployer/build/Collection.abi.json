@@ -6,12 +6,25 @@
 		{
 			"name": "constructor",
 			"inputs": [
+				{"name":"royaltyReceiver_","type":"address"},
+				{"name":"royaltyPercent_","type":"uint128"},
 				{"name":"codeNft","type":"cell"},
 				{"name":"codeIndex","type":"cell"},
 				{"name":"codeIndexBasis","type":"cell"},
 				{"name":"json","type":"string"}
 			],
 			"outputs": [
+			]
+		},
+		{
+			"name": "royaltyInfo",
+			"inputs": [
+				{"name":"answerId","type":"uint32"},
+				{"name":"salePrice","type":"uint128"}
+			],
+			"outputs": [
+				{"name":"receiver","type":"address"},
+				{"name":"royaltyAmount","type":"uint128"}
 			]
 		},
 		{
@@ -165,6 +178,8 @@
 		{"name":"_indexDeployValue","type":"uint128"},
 		{"name":"_indexDestroyValue","type":"uint128"},
 		{"name":"_deployIndexBasisValue","type":"uint128"},
-		{"name":"_remainOnNft","type":"uint128"}
+		{"name":"_remainOnNft","type":"uint128"},
+		{"name":"royaltyReceiver","type":"address"},
+		{"name":"royaltyPercent","type":"uint128"}
 	]
 }

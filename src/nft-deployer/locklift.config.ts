@@ -91,22 +91,22 @@ const config: LockliftConfig = {
         amount: 20,
       },
     },
-    venom_testnet: {
+    venom_devnet: {
       connection: {
-        id: 1000,
+        id: 1002,
         type: "jrpc",
-        group: "dev",
+        group: "devnet",
         data: {
-          endpoint: VENOM_TESTNET_ENDPOINT,
+          endpoint: "https://jrpc-devnet.venom.foundation/",
         },
       },
       giver: {
-        address: "0:0000000000000000000000000000000000000000000000000000000000000000",
-        phrase: "phrase",
+        address: "",
+        phrase: "",
         accountId: 0,
       },
       tracing: {
-        endpoint: VENOM_TESTNET_TRACE_ENDPOINT,
+        endpoint: "https://jrpc-devnet.venom.foundation/",
       },
       keys: {
         // Use everdev to generate your phrase

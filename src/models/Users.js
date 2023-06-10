@@ -78,7 +78,7 @@ const getJSONWebToken = async ({ signature, dataHash, publicKey }) => {
 };
 
 const getUser = async (id) => {
-  return await User.findOne(id);
+  return await User.findOne({ _id: id });
 };
 
 const completeProfile = async (id, { avatar, displayName, bio }) => {

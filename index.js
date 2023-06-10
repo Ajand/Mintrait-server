@@ -5,8 +5,9 @@ import jwt from "jsonwebtoken";
 
 import typeDefs from "./src/typeDefs.js";
 import resolvers from "./src/resolvers.js";
+import config from "./config.js";
 
-mongoose.connect("mongodb://127.0.0.1:27017/mintrait");
+mongoose.connect(config.MONGO_CONNECTION_URL);
 
 const server = new ApolloServer({
   typeDefs,

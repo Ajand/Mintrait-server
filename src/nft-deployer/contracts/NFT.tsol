@@ -29,6 +29,4 @@ contract Nft is NftBase {
     public {
         tvm.accept();
     }
-
-
 }
