@@ -1,0 +1,34 @@
+pragma ever-solidity >= 0.61.2;
+pragma AbiHeader expire;
+pragma AbiHeader pubkey;
+
+// importing all standards bases
+import 'tip4/contracts/NftBase.tsol';
+
+
+contract Nft is NftBase {
+
+    // just call constructors of all implemented classes
+    constructor(
+        address owner,
+        address sendGasTo,
+        uint128 remainOnNft,
+        string json, // for TIP-4.2
+        TvmCell codeIndex, // for TIP-4.3
+        uint128 indexDeployValue, // for TIP-4.3
+        uint128 indexDestroyValue // for TIP-4.3
+    ) NftBase( 
+            owner,
+            sendGasTo,
+            remainOnNft,
+            json,
+            indexDeployValue,
+            indexDestroyValue,
+            codeIndex
+        )
+    public {
+        tvm.accept();
+    }
+
+
+}
